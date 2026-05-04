@@ -10,12 +10,11 @@ class IndexAd(IndexAdPort):
 
     async def execute(self, ad_id: int) -> None:
         snapshot = await self._ad_source.get(ad_id)
-        if snapshot is None or snapshot.status != "active":
-            async with self._uow:
+        async with self._uow:
+            if snapshot is None or snapshot.status != "active":
                 await self._uow.search.delete(ad_id)
                 await self._uow.commit()
-            return
-        async with self._uow:
+                return
             await self._uow.search.upsert(
                 ad_id=ad_id,
                 title=snapshot.title,
