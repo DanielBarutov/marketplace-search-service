@@ -16,15 +16,12 @@ class IndexAd(IndexAdPort):
                 await self._uow.commit()
             return
         async with self._uow:
-            try:
-                await self._uow.search.upsert(
-                    ad_id=ad_id,
-                    title=snapshot.title,
-                    description=snapshot.description,
-                    price=snapshot.price,
-                    category=snapshot.category,
-                    city=snapshot.city,
-                )
-                await self._uow.commit()
-            except Exception as exc:
-                raise exc
+            await self._uow.search.upsert(
+                ad_id=ad_id,
+                title=snapshot.title,
+                description=snapshot.description,
+                price=snapshot.price,
+                category=snapshot.category,
+                city=snapshot.city,
+            )
+            await self._uow.commit()
