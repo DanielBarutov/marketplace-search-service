@@ -22,7 +22,6 @@ class SQLAlchemySearchRepository(SearchRepository):
         category: str,
         city: str,
     ) -> None:
-        print(f"Сработал апсерт в репозитории {ad_id}")
         stmt = (
             pg_insert(SearchIndexModel)
             .values(
@@ -50,7 +49,6 @@ class SQLAlchemySearchRepository(SearchRepository):
         await self._session.execute(
             delete(SearchIndexModel).where(SearchIndexModel.ad_id == ad_id)
         )
-        print("Сработал делит в репозитории {ad_id}")
 
     async def search(
         self,
@@ -65,7 +63,6 @@ class SQLAlchemySearchRepository(SearchRepository):
     ) -> tuple[List[SearchDocument], int]:
         items_query = select(SearchIndexModel)
         count_query = select(func.count()).select_from(SearchIndexModel)
-        print(f"Сработал сеарч в репозитории {query}")
         rank = None
         if query is not None and query.strip():
             tsquery = func.plainto_tsquery("russian", query)

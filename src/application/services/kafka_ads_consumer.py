@@ -20,7 +20,6 @@ class KafkaAdsConsumer:
         self._remove_ad = remove_ad
 
     async def run(self) -> None:
-        logger.info("Kafka запущен...")
         async for msg in self._consumer:
             try:
                 await self._handle(msg.value)
