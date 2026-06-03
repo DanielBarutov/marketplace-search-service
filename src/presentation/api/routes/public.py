@@ -47,7 +47,7 @@ async def search(
 @router.get("/suggest")
 async def suggest(
     usecase: SuggestDep,
-    q: str = Query(..., min_length=2, description="Начало запроса"),
+    q: str = Query(..., min_length=1, description="Начало запроса"),
     limit: int = Query(default=5, ge=1, le=10),
 ) -> SuggestResponse:
     suggestions = await usecase.execute(prefix=q, limit=limit)
