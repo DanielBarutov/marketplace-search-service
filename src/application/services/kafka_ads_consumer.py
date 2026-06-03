@@ -38,8 +38,10 @@ class KafkaAdsConsumer:
             return
 
         if event in ("ad.created", "ad.updated"):
+            logger.info("index ad %s", ad_id)
             await self._index_ad.execute(ad_id)
         elif event == "ad.deleted":
+            logger.info("remove ad %s", ad_id)
             await self._remove_ad.execute(ad_id)
         else:
             logger.warning("unknown event type: %s", event)
